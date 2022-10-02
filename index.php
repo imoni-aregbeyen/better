@@ -2,6 +2,7 @@
 require '_/conn.php';
 $title = 'better';
 $page = isset($_GET['page']) ? test_input($_GET['page']) : 'dashboard';
+if (!file_exists("./page/$page.php")) fopen("./page/$page.php", "w");
 ?>
 <!DOCTYPE html>
 <html lang="en">

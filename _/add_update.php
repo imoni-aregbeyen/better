@@ -1,6 +1,6 @@
 <?php
 require 'conn.php';
-$names = $values = [];
+$names = $values = $assigns = [];
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
   $tbl = isset($_POST['tbl']) ? test_input($_POST['tbl']) : '';
   foreach ($_POST as $name => $value) {
@@ -16,12 +16,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (!in_array($name, $keywords)) {
       $names[] = $name;
       $values[] = "'$value'";
+      $assigns[] = "$name='{$value}'";
     }
   }
 }
-$sql = "INSERT INTO $tbl (" . implode(', ', $names) . ") VALUES (" . implode(', ', $values) . ")";
+if ($id === 0) {
+  $sql = "INSERT INTO $tbl (" . implode(', ', $names) . ") VALUES (" . implode(', ', $values) . ")";
+} else {
+  echo $sql = "UPDATE $tbl SET WHERE " . implode(', ', $assigns) . " id=$id"; die;
+}
+
 if ($conn->query($sql) === TRUE) {
-  $_SESSION['alerts'][] = "New record added successfully";
+  $_SESSION['alerts'][] = "Record updated successfully";
 } else {
   $_SESSION['alerts'][] = "Error: " . $sql . "<br>" . $conn->error;
 }

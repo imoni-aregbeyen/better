@@ -58,7 +58,7 @@
             </a>
             <?php if ($alerts_count > 0): ?>
             <!-- Dropdown - Alerts -->
-            <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in"
+            <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in <?php echo $alerts_count > 0 ? 'show' : ''; ?>"
                 aria-labelledby="alertsDropdown">
                 <h6 class="dropdown-header">
                     Alerts Center
