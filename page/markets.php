@@ -19,13 +19,13 @@ if ($result->num_rows > 0) {
     $market_date = strtotime($row['market_date']);
     $market_time = strtotime($row['market_time']);
     if ($market_date > $this_date || ($market_date === $this_date && $market_time > $this_time)) {
-      $date_str = date('D n M', $market_date);
+      $date_str = date('D j M', $market_date);
       if (!isset($dates[$date_str])) {
         $dates[$date_str] = [];
       }
       $dates[$date_str][] = $row;
     } else {
-      $archive_str = date('D n M', $market_date);
+      $archive_str = date('D j M', $market_date);
       if (!isset($archives[$archive_str])) {
         $archives[$archive_str] = [];
       }

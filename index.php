@@ -122,7 +122,7 @@ if (!file_exists("./page/$page.php")) fopen("./page/$page.php", "w");
 
     <!-- Page level custom scripts -->
     <script src="js/demo/datatables-demo.js"></script>
-
+    
 </body>
 
 </html>
