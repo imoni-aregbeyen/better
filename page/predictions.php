@@ -23,6 +23,7 @@ if ($result->num_rows > 0) {
     $rs = $row;
   }
 }
+$rs_count = count($rs);
 
 $conn->close();
 ?>
@@ -96,62 +97,86 @@ $conn->close();
                         <td><?php echo $sn++; ?></td>
                         <td><?php echo $prediction['domain']; ?></td>
                         <td>
-                          <?php if ($prediction['home'] === $rs['home'] && $prediction['away'] === $rs['away']): ?>
-                            <span class="badge badge-success"><?php echo $prediction['home']; ?>:<?php echo $prediction['away']; ?></span>
+                          <?php if ($rs_count > 0): ?>
+                            <?php if ($prediction['home'] === $rs['home'] && $prediction['away'] === $rs['away']): ?>
+                              <span class="badge badge-success"><?php echo $prediction['home']; ?>:<?php echo $prediction['away']; ?></span>
+                            <?php else: ?>
+                              <span class="badge badge-danger"><?php echo $prediction['home']; ?>:<?php echo $prediction['away']; ?></span>
+                            <?php endif; ?>
                           <?php else: ?>
-                            <span class="badge badge-danger"><?php echo $prediction['home']; ?>:<?php echo $prediction['away']; ?></span>
+                            <span class="badge"><?php echo $prediction['home']; ?>:<?php echo $prediction['away']; ?></span>
                           <?php endif; ?>
                         </td>
                         <td>
-                          <?php if ($prediction['home'] === $rs['home']): ?>
-                            <span class="badge badge-success"><?php echo $prediction['home']; ?></span>
+                          <?php if ($rs_count > 0): ?>
+                            <?php if ($prediction['home'] === $rs['home']): ?>
+                              <span class="badge badge-success"><?php echo $prediction['home']; ?></span>
+                            <?php else: ?>
+                              <span class="badge badge-danger"><?php echo $prediction['home']; ?></span>
+                            <?php endif; ?>
                           <?php else: ?>
-                            <span class="badge badge-danger"><?php echo $prediction['home']; ?></span>
+                            <span class="badge"><?php echo $prediction['home']; ?></span>
                           <?php endif; ?>
                         </td>
                         <td>
-                          <?php if ($prediction['away'] === $rs['away']): ?>
-                            <span class="badge badge-success"><?php echo $prediction['away']; ?></span>
+                          <?php if ($rs_count > 0): ?>
+                            <?php if ($prediction['away'] === $rs['away']): ?>
+                              <span class="badge badge-success"><?php echo $prediction['away']; ?></span>
+                            <?php else: ?>
+                              <span class="badge badge-danger"><?php echo $prediction['away']; ?></span>
+                            <?php endif; ?>
                           <?php else: ?>
-                            <span class="badge badge-danger"><?php echo $prediction['away']; ?></span>
+                            <span class="badge"><?php echo $prediction['away']; ?></span>
                           <?php endif; ?>
                         </td>
                         <td>
                           <?php
-                          $rs_ttl = $rs['home'] + $rs['away'];
                           $pre_ttl = $prediction['home'] + $prediction['away'];
                           ?>
-                          <?php if ($rs_ttl === $pre_ttl): ?>
-                            <span class="badge badge-success"><?php echo $pre_ttl; ?></span>
+                          <?php if ($rs_count > 0): $rs_ttl = $rs['home'] + $rs['away']; ?>
+                            <?php if ($rs_ttl === $pre_ttl): ?>
+                              <span class="badge badge-success"><?php echo $pre_ttl; ?></span>
+                            <?php else: ?>
+                              <span class="badge badge-danger"><?php echo $pre_ttl; ?></span>
+                            <?php endif; ?>
                           <?php else: ?>
-                            <span class="badge badge-danger"><?php echo $pre_ttl; ?></span>
+                            <span class="badge"><?php echo $pre_ttl; ?></span>
                           <?php endif; ?>
                         </td>
                         <td>
                           <?php
-                          $rs_dif = $rs['home'] - $rs['away'];
                           $pre_dif = $prediction['home'] - $prediction['away'];
                           ?>
-                          <?php if ($rs_dif > 0 && $pre_dif > 0): ?>
-                            <span class="badge badge-success">1</span>
-                          <?php elseif ($rs_dif > 0 && $pre_dif === 0): ?>
-                            <span class="badge badge-danger">X</span>
-                          <?php elseif ($rs_dif > 0 && $pre_dif < 0): ?>
-                            <span class="badge badge-danger">2</span>
+                          <?php if ($rs_count > 0): $rs_dif = $rs['home'] - $rs['away']; ?>
+                            <?php if ($rs_dif > 0 && $pre_dif > 0): ?>
+                              <span class="badge badge-success">1</span>
+                            <?php elseif ($rs_dif > 0 && $pre_dif === 0): ?>
+                              <span class="badge badge-danger">X</span>
+                            <?php elseif ($rs_dif > 0 && $pre_dif < 0): ?>
+                              <span class="badge badge-danger">2</span>
 
-                          <?php elseif ($rs_dif === 0 && $pre_dif === 0): ?>
-                            <span class="badge badge-success">X</span>
-                          <?php elseif ($rs_dif === 0 && $pre_dif < 0): ?>
-                            <span class="badge badge-danger">2</span>
-                          <?php elseif ($rs_dif === 0 && $pre_dif > 0): ?>
-                            <span class="badge badge-danger">1</span>
+                            <?php elseif ($rs_dif === 0 && $pre_dif === 0): ?>
+                              <span class="badge badge-success">X</span>
+                            <?php elseif ($rs_dif === 0 && $pre_dif < 0): ?>
+                              <span class="badge badge-danger">2</span>
+                            <?php elseif ($rs_dif === 0 && $pre_dif > 0): ?>
+                              <span class="badge badge-danger">1</span>
 
-                          <?php elseif ($rs_dif < 0 && $pre_dif < 0): ?>
-                            <span class="badge badge-success">2</span>
-                          <?php elseif ($rs_dif < 0 && $pre_dif > 0): ?>
-                            <span class="badge badge-danger">1</span>
-                          <?php elseif ($rs_dif < 0 && $pre_dif === 0): ?>
-                            <span class="badge badge-danger">X</span>
+                            <?php elseif ($rs_dif < 0 && $pre_dif < 0): ?>
+                              <span class="badge badge-success">2</span>
+                            <?php elseif ($rs_dif < 0 && $pre_dif > 0): ?>
+                              <span class="badge badge-danger">1</span>
+                            <?php elseif ($rs_dif < 0 && $pre_dif === 0): ?>
+                              <span class="badge badge-danger">X</span>
+                            <?php endif; ?>
+                          <?php else: ?>
+                            <?php if ($pre_dif > 0): ?>
+                              <span class="badge">1</span>
+                            <?php elseif ($pre_dif === 0): ?>
+                              <span class="badge">X</span>
+                            <?php elseif ($pre_dif < 0): ?>
+                              <span class="badge">2</span>
+                            <?php endif; ?>
                           <?php endif; ?>
                         </td>
                     </tr>
