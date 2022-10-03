@@ -16,6 +16,7 @@ if ($result->num_rows > 0) {
   </div>
   <form class="user" action="_/add.php" method="post">
     <input type="hidden" name="tbl" value="predictions">
+    <input type="hidden" name="msg" value="">
     <input type="hidden" name="market_id" value="<?php echo $market_id; ?>">
     <div class="form-group row">
       <div class="col-sm-6 mb-3 mb-sm-0">

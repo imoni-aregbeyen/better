@@ -21,7 +21,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 }
 $sql = "INSERT INTO $tbl (" . implode(', ', $names) . ") VALUES (" . implode(', ', $values) . ")";
 if ($conn->query($sql) === TRUE) {
-  $_SESSION['alerts'][] = "New record added successfully";
+  if ($msg !== '')
+    $_SESSION['alerts'][] = "New record added successfully";
 } else {
   $_SESSION['alerts'][] = "Error: " . $sql . "<br>" . $conn->error;
 }
