@@ -1,6 +1,6 @@
 <?php
 $market_id = isset($_GET['market_id']) ? (int)test_input($_GET['market_id']) : 0;
-$market = $predictions = $rs = [];
+$market = $league = $predictions = $rs = [];
 
 $sql = "SELECT * FROM markets WHERE id=$market_id";
 $result = $conn->query($sql);
@@ -25,11 +25,21 @@ if ($result->num_rows > 0) {
 }
 $rs_count = count($rs);
 
+$sql = "SELECT * FROM leagues WHERE id=" . $market['league_id'];
+$result = $conn->query($sql);
+if ($result->num_rows > 0) {
+  while($row = $result->fetch_assoc()) {
+    $league = $row;
+  }
+}
+
 $conn->close();
 ?>
 <!-- Page Heading -->
 <div class="d-sm-flex align-items-center justify-content-between mb-4">
     <h1 class="h3 mb-0 text-gray-800">
+      <a href="?page=markets&league=<?php echo $league['league'] ?>" class="small"><?php echo $league['league'] ?></a>
+      <span class="small text-info">&gt;</span>
       <?php echo $market['home']; ?>
       <?php if (count($rs) > 0): ?>
         <span class="text-info"><?php echo $rs['home'] . ' : ' . $rs['away']; ?></span>
