@@ -1,9 +1,18 @@
 <?php
 $league_id = (int)test_input($_GET['league_id']);
+$league = [];
+$sql = "SELECT * FROM leagues WHERE id=$league_id";
+$result = $conn->query($sql);
+if ($result->num_rows > 0) {
+  while($row = $result->fetch_assoc()) {
+    $league = $row;
+  }
+}
 ?>
 <div class="p-5 col-lg-8 mx-auto">
   <div class="text-center">
     <h1 class="h4 text-gray-900 mb-4">Add a Market!</h1>
+    <p class="text-info"><a href="?page=markets&league=<?php echo $league['league']; ?>"><?php echo $league['league']; ?></a></p>
   </div>
   <form class="user" action="_/add.php" method="post">
     <input type="hidden" name="tbl" value="markets">
@@ -30,6 +39,6 @@ $league_id = (int)test_input($_GET['league_id']);
     <button type="submit" class="btn btn-primary btn-user btn-block">
       Register Market
     </button>
-    <!-- <input type="hidden" name="pg" value="http://localhost/better/?page=markets&league=England%20Premier%20League"> -->
+    <input type="hidden" name="msg" value="Market Added Successfully!">
   </form>
 </div>

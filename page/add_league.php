@@ -11,5 +11,6 @@
     <button type="submit" class="btn btn-primary btn-user btn-block">
       Register League
     </button>
+    <input type="hidden" name="msg" value="League Added Successfully!">
   </form>
 </div>

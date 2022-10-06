@@ -77,7 +77,8 @@ $conn->close();
 </div>
 <?php endforeach; ?>
 <hr>
-<details>
+<?php if (count($archives) > 0): ?>
+<details open>
     <summary>Archives</summary>
     <?php foreach ($archives as $date => $markets): ?>
     <div class="card shadow mb-4">
@@ -113,3 +114,4 @@ $conn->close();
     </div>
     <?php endforeach; ?>
 </details>
+<?php endif; ?>
