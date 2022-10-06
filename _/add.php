@@ -15,6 +15,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
     if (!in_array($name, $keywords)) {
       $names[] = $name;
+      $value = $conn->real_escape_string($value);
       $values[] = "'$value'";
     }
   }
