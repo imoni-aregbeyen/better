@@ -23,7 +23,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 if ($id === 0) {
   $sql = "INSERT INTO $tbl (" . implode(', ', $names) . ") VALUES (" . implode(', ', $values) . ")";
 } else {
-  echo $sql = "UPDATE $tbl SET WHERE " . implode(', ', $assigns) . " id=$id"; die;
+  $sql = "UPDATE $tbl SET " . implode(', ', $assigns) . " WHERE id=$id";
 }
 
 if ($conn->query($sql) === TRUE) {

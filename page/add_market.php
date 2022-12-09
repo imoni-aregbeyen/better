@@ -17,6 +17,7 @@ if ($result->num_rows > 0) {
   <form class="user" action="_/add.php" method="post">
     <input type="hidden" name="tbl" value="markets">
     <input type="hidden" name="league_id" value="<?php echo $league_id; ?>">
+    <input type="hidden" name="dis" value="home,away,market_date">
     <div class="form-group row">
       <div class="col-sm-6 mb-3 mb-sm-0">
         <input type="text" name="home" class="form-control form-control-user" placeholder="Home" required>
@@ -34,7 +35,7 @@ if ($result->num_rows > 0) {
       </div>
     </div>
     <div class="form-group">
-      <input type="url" name="url" class="form-control form-control-user" placeholder="URL">
+      <input type="url" name="url" class="form-control form-control-user" placeholder="URL" required>
     </div>
     <button type="submit" class="btn btn-primary btn-user btn-block">
       Register Market

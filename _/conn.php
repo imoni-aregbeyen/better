@@ -9,12 +9,13 @@ if ($conn->connect_error) {
   die("Connection failed: " . $conn->connect_error);
 }
 
-$keywords = ['tbl', 'pg', 'msg'];
+$keywords = ['tbl', 'pg', 'msg', 'dis', 'id'];
 $alerts = isset($_SESSION['alerts']) ? $_SESSION['alerts'] : [];
 $alerts_count = count($alerts);
 $pg = isset($_POST['pg']) ? $_POST['pg'] : '';
 $id = isset($_POST['id']) ? (int)test_input($_POST['id']) : 0;
 $msg = isset($_POST['msg']) ? test_input($_POST['msg']) : '';
+$dis = isset($_POST['dis']) ? explode(',', $_POST['dis']) : [];
 $date = date('Y-m-d');
 
 function test_input($data) {

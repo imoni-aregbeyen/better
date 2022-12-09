@@ -2,6 +2,7 @@
 $market_id = isset($_GET['market_id']) ? (int)test_input($_GET['market_id']) : 0;
 $market = $league = $predictions = $rs = [];
 $correct_score = $home_goals = $away_goals = $total_goals = $hxa = [];
+$previous = $next = 0;
 
 $sql = "SELECT * FROM markets WHERE id=$market_id";
 $result = $conn->query($sql);
@@ -10,6 +11,22 @@ if ($result->num_rows > 0) {
     $market = $row;
   }
 }
+
+$sql = "SELECT * FROM markets WHERE id>$market_id LIMIT 1";
+$result = $conn->query($sql);
+if ($result->num_rows > 0) {
+  while($row = $result->fetch_assoc()) {
+    $next = $row['id'];
+  }
+}
+$sql = "SELECT * FROM markets WHERE id<$market_id";
+$result = $conn->query($sql);
+if ($result->num_rows > 0) {
+  while($row = $result->fetch_assoc()) {
+    $previous = $row['id'];
+  }
+}
+
 $sql = "SELECT * FROM predictions WHERE market_id=$market_id ORDER BY domain";
 $result = $conn->query($sql);
 if ($result->num_rows > 0) {
@@ -35,30 +52,30 @@ if ($result->num_rows > 0) {
     $league = $row;
   }
 }
-
 $conn->close();
 ?>
 <!-- Page Heading -->
 <div class="d-sm-flex align-items-center justify-content-between mb-4">
-    <h1 class="h3 mb-0 text-gray-800">
-      <a href="?page=markets&league=<?php echo $league['league'] ?>" class="small"><?php echo $league['league'] ?></a>
-      <span class="small text-info">&gt;</span>
-      <a href="<?php echo $league['url'] ?>">
-        <?php echo $market['home']; ?>
-        <?php if (count($rs) > 0): ?>
-          <span class="text-info"><?php echo $rs['home'] . ' : ' . $rs['away']; ?></span>
-        <?php else: ?>
-          <span class="text-info">v</span>
-        <?php endif; ?>
-        <?php echo $market['away']; ?>
-      </a>
-    </h1>
-    <div class="">
-      <a href="?page=add_prediction&market_id=<?php echo $market['id']; ?>" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
-          class="fas fa-plus fa-sm text-white-50"></i> Add Prediction</a>
-      <a href="?page=update_result&market_id=<?php echo $market['id']; ?>" class="d-none d-sm-inline-block btn btn-sm btn-outline-primary shadow-sm">Update Result</a>
-    </div>
+  <h1 class="h3 mb-0 text-gray-800">
+    <a href="?page=markets&league=<?php echo $league['league'] ?>" class="small"><?php echo $league['league'] ?></a>
+    <span class="small text-info">&gt;</span>
+    <a href="?page=predictions&market_id=<?= $previous ?>" class="">&larr;</a>
+    <?php echo $market['home']; ?>
+    <?php if (count($rs) > 0): ?>
+      <span class="text-info"><?php echo $rs['home'] . ' : ' . $rs['away']; ?></span>
+    <?php else: ?>
+      <span class="text-info">v</span>
+    <?php endif; ?>
+    <?php echo $market['away']; ?>
+    <a href="?page=predictions&market_id=<?= $next ?>" class="">&rarr;</a>
+  </h1>
+  <small class="text-info"><?php echo date('D j M', strtotime($market['market_date'])); ?></small>
+  <div class="">
+    <a href="?page=add_prediction&market_id=<?php echo $market['id']; ?>" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
+        class="fas fa-plus fa-sm text-white-50"></i> Add Prediction</a>
+    <a href="?page=update_result&market_id=<?php echo $market['id']; ?>" class="d-none d-sm-inline-block btn btn-sm btn-outline-primary shadow-sm">Update Result</a>
   </div>
+</div>
 
 <div class="card shadow mb-4">
     <div class="card-header py-3">
@@ -115,6 +132,7 @@ $conn->close();
                         <td><?php echo $sn++; ?></td>
                         <td>
                           <a href="<?php echo $prediction['url']; ?>" target="_blank" rel="noopener noreferrer"><?php echo $prediction['domain']; ?></a>
+                          <a href="?page=edit_prediction&id=<?php echo $prediction['id']; ?>" class="btn btn-sm">edit</a>
                         </td>
                         <td>
                           <?php if ($rs_count > 0): ?>
